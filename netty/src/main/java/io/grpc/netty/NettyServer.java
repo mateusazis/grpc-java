@@ -65,6 +65,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
+import java.util.concurrent.Executor;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -203,7 +204,7 @@ class NettyServer implements InternalServer, InternalWithLogId {
   }
 
   @Override
-  public void start(ServerListener serverListener) throws IOException {
+  public void start(ServerListener serverListener, Executor executor) throws IOException {
     listener = checkNotNull(serverListener, "serverListener");
 
     final ServerBootstrap b = new ServerBootstrap();

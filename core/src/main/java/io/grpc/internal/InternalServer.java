@@ -21,6 +21,8 @@ import io.grpc.InternalInstrumented;
 import java.io.IOException;
 import java.net.SocketAddress;
 import java.util.List;
+import java.util.concurrent.Executor;
+
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
 
@@ -38,7 +40,7 @@ public interface InternalServer {
    * @param listener non-{@code null} listener of server events
    * @throws IOException if unable to bind
    */
-  void start(ServerListener listener) throws IOException;
+  void start(ServerListener listener, Executor executor) throws IOException;
 
   /**
    * Initiates an orderly shutdown of the server. Existing transports continue, but new transports

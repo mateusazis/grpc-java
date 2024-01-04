@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.net.SocketAddress;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Executor;
 import java.util.concurrent.ScheduledExecutorService;
 import javax.annotation.Nullable;
 import org.junit.Ignore;
@@ -108,7 +109,7 @@ public final class StandaloneInProcessTransportTest extends AbstractTransportTes
     }
 
     @Override
-    public void start(ServerListener serverListener) throws IOException {
+    public void start(ServerListener serverListener, Executor executor) throws IOException {
       if (currentServer != null) {
         throw new IOException("Server already present");
       }

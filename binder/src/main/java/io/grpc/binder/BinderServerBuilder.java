@@ -77,7 +77,6 @@ public final class BinderServerBuilder
   private ServerSecurityPolicy securityPolicy;
   private InboundParcelablePolicy inboundParcelablePolicy;
   private boolean isBuilt;
-  @Nullable private BinderTransportSecurity.ShutdownListener shutdownListener = null;
 
   private BinderServerBuilder(
       AndroidComponentAddress listenAddress,
@@ -91,9 +90,7 @@ public final class BinderServerBuilder
           schedulerPool,
           streamTracerFactories,
           BinderInternal.createPolicyChecker(securityPolicy),
-          inboundParcelablePolicy,
-          // 'shutdownListener' should have been set by build()
-          checkNotNull(shutdownListener));
+          inboundParcelablePolicy);
       BinderInternal.setIBinder(binderReceiver, server.getHostBinder());
       return server;
     });
@@ -179,10 +176,14 @@ public final class BinderServerBuilder
     checkState(!isBuilt, "BinderServerBuilder can only be used to build one server instance.");
     isBuilt = true;
     // We install the security interceptor last, so it's closest to the transport.
-    ObjectPool<? extends Executor> executorPool = serverImplBuilder.getExecutorPool();
-    Executor executor = executorPool.getObject();
+
+    // This executor should come from the BinderServer.executor.
+    // But BinderServer doesn't exist yet. Also, BinderServer.executor will only be set after
+    // BinderServer.start() is called. That "future" executor may not exist yet.
+    // I could pass a Provider<Executor> here, but it feels fragile (weak contract about when it
+    // will be available).
+    Executor executor = null;
     BinderTransportSecurity.installAuthInterceptor(this, executor);
-    shutdownListener = () -> executorPool.returnObject(executor);
     return super.build();
   }
 }

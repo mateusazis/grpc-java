@@ -1574,7 +1574,7 @@ public class ServerImplTest {
     ServerListener listener;
 
     @Override
-    public void start(ServerListener listener) throws IOException {
+    public void start(ServerListener listener, Executor executor) throws IOException {
       this.listener = listener;
     }
 

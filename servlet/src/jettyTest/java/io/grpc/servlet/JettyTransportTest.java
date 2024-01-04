@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.util.List;
+import java.util.concurrent.Executor;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import javax.annotation.Nullable;
@@ -62,8 +63,8 @@ public class JettyTransportTest extends AbstractTransportTest {
               new ServletServerBuilder().buildTransportServers(streamTracerFactories);
 
       @Override
-      public void start(ServerListener listener) throws IOException {
-        delegate.start(listener);
+      public void start(ServerListener listener, Executor executor) throws IOException {
+        delegate.start(listener, executor);
         ScheduledExecutorService scheduler = fakeClock.getScheduledExecutorService();
         ServerTransportListener serverTransportListener =
                 listener.transportCreated(new ServletServerBuilder.ServerTransportImpl(scheduler));

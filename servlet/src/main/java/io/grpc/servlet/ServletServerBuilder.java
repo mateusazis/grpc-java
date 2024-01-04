@@ -48,6 +48,7 @@ import java.io.IOException;
 import java.net.SocketAddress;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Executor;
 import java.util.concurrent.ScheduledExecutorService;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.NotThreadSafe;
@@ -194,7 +195,7 @@ public final class ServletServerBuilder extends ForwardingServerBuilder<ServletS
     InternalServerImpl() {}
 
     @Override
-    public void start(ServerListener listener) {
+    public void start(ServerListener listener, Executor executor) {
       serverListener = listener;
     }
 

@@ -72,7 +72,7 @@ final class OkHttpServer implements InternalServer {
   }
 
   @Override
-  public void start(ServerListener listener) throws IOException {
+  public void start(ServerListener listener, Executor executor) throws IOException {
     this.listener = Preconditions.checkNotNull(listener, "listener");
     ServerSocket serverSocket = socketFactory.createServerSocket();
     try {

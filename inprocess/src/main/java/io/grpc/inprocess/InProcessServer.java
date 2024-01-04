@@ -32,6 +32,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.Executor;
 import java.util.concurrent.ScheduledExecutorService;
 import javax.annotation.concurrent.ThreadSafe;
 
@@ -73,7 +74,7 @@ final class InProcessServer implements InternalServer {
   }
 
   @Override
-  public void start(ServerListener serverListener) throws IOException {
+  public void start(ServerListener serverListener, Executor executor) throws IOException {
     this.listener = serverListener;
     this.scheduler = schedulerPool.getObject();
     // Must be last, as channels can start connecting after this point.

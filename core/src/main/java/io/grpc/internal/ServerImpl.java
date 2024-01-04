@@ -182,8 +182,8 @@ public final class ServerImpl extends io.grpc.Server implements InternalInstrume
       // Start and wait for any ports to actually be bound.
 
       ServerListenerImpl listener = new ServerListenerImpl();
-      transportServer.start(listener);
       executor = Preconditions.checkNotNull(executorPool.getObject(), "executor");
+      transportServer.start(listener, executor);
       started = true;
       return this;
     }
